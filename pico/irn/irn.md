@@ -6,7 +6,7 @@ exclude: true
 
 ## Summary
 - **Category:** Web Exploitation
-- **Difficulty:** Easy
+- **Difficulty:** Very Easy
 - **Main Topics:** SQL Injection
 - [**CTF webpage**](https://play.picoctf.org/practice/challenge/80?category=1&page=3)
 
