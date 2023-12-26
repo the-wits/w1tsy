@@ -1,0 +1,46 @@
+:root {
+    --base-color: #00ff00;
+    --background-color: #000000;
+    --link-color: var(--base-color);
+}
+
+body {
+    font-family: "Source Code Pro", monospace;
+    background-color: var(--background-color);
+    color: var(--base-color);
+}
+
+a {
+    color: var(--link-color) !important;
+}
+
+a:hover {
+    color: var(--background-color) !important;
+    background-color: var(--base-color);
+}
+
+ul.dashed {
+    list-style-type: none;
+}
+
+ul.dashed > li:before {
+    content: "-";
+    text-indent: -5px;
+}
+
+.container {
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* HEADER */
+.header-nav {
+    border-top: 1px dashed var(--base-color);
+    border-bottom: 1px dashed var(--base-color);
+}
+
+.nav-link.active {
+    color: var(--background-color) !important;
+    background-color: var(--base-color);
+}
