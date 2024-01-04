@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <title>~/sec/ctf/takeover</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <header class="header mb-4">
+            <div class="header-nav py-3">
+                <ul class="nav justify-content-end gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link p-0" href="../../../index.html">/</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active p-0" aria-current="page" href="../../../sec/index.html">/sec</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-0" href="../../../whoami.html">/whoami</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item p-0"><a href="../../../index.html">~</a></li>
+                    <li class="breadcrumb-item p-0"><a href="../../../sec/index.html">/sec</a></li>
+                    <li class="breadcrumb-item p-0"><a href="../../../sec/ctf/index.html">/ctf</a></li>
+                    <li class="breadcrumb-item fw-semibold p-0" aria-current="page"><a href="#">/takeover</a></li>
+                </ol>
+            </nav>
+            <h1 class="fs-5 fw-semibold text-uppercase">
+                TakeOver [TryHackMe]
+            </h1>
+            <ul class="dashed p-0">
+                <li>
+                    Difficulty: Easy
+                </li>
+                <li>
+                    Link:
+                    <a href="https://tryhackme.com/room/takeover">
+                        https://tryhackme.com/room/takeover
+                    </a>
+                </li>
+            </ul>
+            <details open="">
+                <summary class="fs-5 fw-semibold text-uppercase">
+                    Introduction
+                </summary>
+                <p>
+                    Hi everyone and welcome to my first write-up. This is the write-up of
+                    <a href="https://tryhackme.com/room/takeover">TakeOver</a> room on TryHackMe.
+                    It is an easy room based on <span class="fst-italic">subdomain enumeration</span>.
+                    I hope you enjoy it!
+                </p>
+            </details>
+            <details open="">
+                <summary class="fs-5 fw-semibold text-uppercase">
+                    Information Gathering
+                </summary>
+                <p>
+                    Before starting with the enumeration phase, add <code>futurevera.thm</code> to the
+                    <code>/etc/hosts</code> file as suggested by the challenge description:<br>
+                    <span class="fst-italic">
+                        "don't forget to add the MACHINE_IP in /etc/hosts for futurevera.thm"
+                    </span>
+                    <img class="my-1" src="img/hosts.png" alt="Update /etc/hosts part 1">
+                </p>
+                <p>
+                    Now start scanning the target with nmap. The following ports are open on the target:
+                </p>
+                <ul class="dashed">
+                    <li>
+                        22 (SSH)
+                    </li>
+                    <li>
+                        80 (HTTP)
+                    </li>
+                    <li>
+                        443 (HTTPS)
+                    </li>
+                </ul>
+                <p>
+                    Visit the website both on port 80 and 443 but nothing relevant is found.
+                </p>
+                <p>
+                    Now start enumerate subdomains with <code>gobuster</code> in <code>vhost</code> mode as follow:
+                    <img class="my-1" src="img/subdomain1.png" alt="Subdomain enumeration with gobuster" srcset="">
+                    I found the following 2 subdomains:
+                </p>
+                <ul class="dashed">
+                    <li>
+                        <code>support.futurevera.thm</code>
+                    </li>
+                    <li>
+                        <code>blog.futurevera.thm</code>
+                    </li>
+                </ul>
+                <p>
+                    Add them to the <code>/etc/hosts</code> file as follow:
+                    <img class="my-1" src="img/hosts2.png" alt="Update /etc/hosts part 2">
+                </p>
+            </details>
+            <details open="">
+                <summary class="fs-5 fw-semibold text-uppercase">
+                    Flag
+                </summary>
+                <p>
+                    Now enumerate both subdomains found. The nmap scan shows the same output
+                    found before on <code>futurevera.thm</code>.<br>
+                    SSL certificates may hold some useful information so check them on both subdomain.<br>
+                    Nothing interesting was found on <code>blog.futurevera.thm</code>. On
+                    <code>support.futurevera.thm</code> instead, the SSL certificate hold a new subdomain as show in the
+                    following picture:
+                    <img class="my-1" src="img/support_cert.png" alt="SSL certificate for support.futurevera.thm">
+                </p>
+                <p>
+                    Now add the <code>secret***.support.futurevera.thm</code> subdomain to the
+                    <code>/etc/hosts</code> file as follow and enumerate it:
+                    <img class="my-1" src="img/hosts3.png" alt="Update /etc/hosts part 2">
+                    On port 443 (https) is hosted the same site found on <code>futurevera.thm</code>.<br>
+                    Instead, visit the website on port 80 (http) and look at the <code>Location</code> header in the
+                    response to
+                    get the flag:
+                    <img class="my-1" src="img/flag.png" alt="Flag">
+                </p>
+            </details>
+            <details open="">
+                <summary class="fs-5 fw-semibold text-uppercase">
+                    Conclusion
+                </summary>
+                <p>
+                    This first write-up was a lot of fun to write, and the room taught me how to enumerate
+                    subdomains.<br>
+                    If you want to go deeper with subdomain enumeration, I recommend you some useful resources:
+                </p>
+                <ul class="dashed">
+                    <li>
+                        <a class="fw-semibold" href="https://developer.mozilla.org/en-US/docs/Web/Security/Subdomain_takeovers">
+                            Subdomain takeover - Mozilla Web Security
+                        </a>
+                    </li>
+                    <li>
+                        <a class="fw-semibold"
+                            href="https://book.hacktricks.xyz/pentesting-web/domain-subdomain-takeover">
+                            Domain/Subdomain takeover - HackTricks
+                        </a>
+                    </li>
+                </ul>
+            </details>
+        </main>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+    </div>
+</body>
+
+</html>

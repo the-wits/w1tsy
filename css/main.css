@@ -19,19 +19,36 @@ a:hover {
     background-color: var(--base-color);
 }
 
+p {
+    padding-left: 2rem;
+}
+
 ul.dashed {
     list-style-type: none;
 }
 
-ul.dashed > li:before {
+ul.dashed>li:before {
     content: "-";
     text-indent: -5px;
+}
+
+img {
+    max-width: 600px;
 }
 
 .container {
     max-width: 600px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-light);
+    --bs-tooltip-color: var(--bs-black);
+}
+
+.text-green {
+    color: var(--base-color) !important;
 }
 
 /* HEADER */
@@ -43,4 +60,9 @@ ul.dashed > li:before {
 .nav-link.active {
     color: var(--background-color) !important;
     background-color: var(--base-color);
+}
+
+/* BREADCRUMB */
+.breadcrumb-item+.breadcrumb-item::before {
+    content: none;
 }
